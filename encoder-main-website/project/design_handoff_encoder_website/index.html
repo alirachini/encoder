@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Encoder — Precision Software</title>
+<link rel="icon" href="assets/encoder-logo.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800;900&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap">
+
+<script>
+window.__TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#2563EB",
+  "headline": "We make your ideas come true.",
+  "typePair": "archivo",
+  "heroVariant": "showroom"
+}/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root {
+    --bg: #FFFFFF;
+    --bg-2: #F4F4F4;
+    --bg-3: #0A0A0A;
+    --ink: #0A0A0A;
+    --ink-2: #1C1C1C;
+    --muted: #6E6E6E;
+    --rule: #D9D9D9;
+    --rule-strong: #0A0A0A;
+    --accent: #2563EB;
+    --max: 1600px;
+    --gutter: clamp(20px, 3.5vw, 64px);
+
+    --ff-display: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    --ff-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  [data-type="archivo"] { --ff-display: "Archivo", system-ui, sans-serif; }
+  [data-type="grotesk"] { --ff-display: "Space Grotesk", system-ui, sans-serif; }
+  [data-type="inter"]   { --ff-display: "Inter Tight", system-ui, sans-serif; }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 16px;
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: #fff; }
+
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  .mono { font-family: var(--ff-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+
+  /* ─── Nav ─── */
+  .nav {
+    position: fixed; inset: 0 0 auto 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s, background .25s;
+  }
+  .nav.is-scrolled { border-bottom-color: var(--rule); }
+  .nav__row {
+    display: grid; grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 32px;
+    height: 64px;
+  }
+  .nav__brand { display: flex; align-items: center; gap: 12px; }
+  .nav__brand svg { width: 26px; height: 26px; display: block; }
+  .nav__brand-name {
+    font-family: var(--ff-display); font-weight: 800;
+    letter-spacing: .18em; font-size: 13px;
+    text-transform: uppercase;
+  }
+  .nav__links {
+    display: flex; gap: 28px; justify-content: center;
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .14em; text-transform: uppercase;
+  }
+  .nav__links a { opacity: .55; transition: opacity .2s; }
+  .nav__links a:hover, .nav__links a.is-active { opacity: 1; }
+  .nav__right { display: flex; align-items: center; gap: 18px; justify-self: end; }
+  .nav__lang { font-family: var(--ff-mono); font-size: 11px; letter-spacing: .14em; color: var(--muted); }
+  .nav__lang b { color: var(--ink); font-weight: 500; }
+  .nav__cta {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 10px 16px; background: var(--ink); color: var(--bg);
+    transition: background .2s;
+  }
+  .nav__cta:hover { background: var(--accent); }
+  @media (max-width: 860px) { .nav__links, .nav__lang { display: none; } }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding: 120px 0 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .hero__meta {
+    display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero__meta > div {
+    padding: 14px 0;
+    border-left: 1px solid var(--rule);
+    padding-left: 18px;
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero__meta > div:first-child { border-left: 0; padding-left: 0; }
+  .hero__meta b { color: var(--ink); font-weight: 500; display: block; font-size: 12px; margin-top: 2px; }
+  .hero__meta .dot { display: inline-block; width: 7px; height: 7px; background: var(--accent); border-radius: 50%; margin-right: 8px; vertical-align: middle; animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity:.3; transform:scale(1);} 50% { opacity:1; transform:scale(1.4);} }
+
+  .hero__stage {
+    padding: 72px 0 40px;
+    display: grid; grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .hero__eyebrow {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 32px;
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero__eyebrow::before { content: ""; width: 40px; height: 1px; background: var(--accent); }
+  .hero__eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+  .hero__eyebrow b { color: var(--ink); font-weight: 500; letter-spacing: .16em; }
+
+  .hero__headline {
+    font-family: var(--ff-display); font-weight: 800;
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    margin: 0;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .hero__headline em {
+    font-style: normal;
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .hero__headline .word { display: inline-block; overflow: hidden; vertical-align: baseline; padding: 0.18em 0.04em; margin: -0.18em -0.04em; }
+  .hero__headline .word.is-done { overflow: visible; }
+  .hero__headline .word > span { display: inline-block; transform: translateY(110%); animation: wordRise 1s cubic-bezier(.22,.9,.28,1) forwards; }
+  @keyframes wordRise { to { transform: translateY(0); } }
+
+  .hero__sub {
+    margin-top: 40px;
+    display: grid; grid-template-columns: 1fr;
+    gap: 32px;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+  }
+  @media (min-width: 960px) {
+    .hero__sub { grid-template-columns: 1.1fr 1fr auto; align-items: end; gap: 48px; }
+  }
+  .hero__lead {
+    font-family: var(--ff-display); font-weight: 400;
+    font-size: clamp(18px, 1.7vw, 22px);
+    line-height: 1.35; letter-spacing: -0.01em;
+    max-width: 48ch; color: var(--ink);
+    margin: 0;
+  }
+  .hero__lead b { font-weight: 600; }
+
+  .hero__specs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 18px 32px;
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .08em; text-transform: uppercase;
+  }
+  .hero__specs dt { color: var(--muted); margin-bottom: 4px; }
+  .hero__specs dd { margin: 0; color: var(--ink); font-weight: 500; font-family: var(--ff-display); font-size: 15px; letter-spacing: 0; text-transform: none; }
+
+  .hero__cta-row { display: flex; flex-direction: column; gap: 10px; }
+
+  .btn {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .16em; text-transform: uppercase;
+    padding: 16px 22px;
+    display: inline-flex; align-items: center; justify-content: space-between; gap: 24px;
+    min-width: 220px;
+    cursor: pointer; border: 1px solid transparent;
+    transition: background .2s, color .2s, border-color .2s;
+  }
+  .btn--primary { background: var(--ink); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent); }
+  .btn--ghost { border-color: var(--ink); color: var(--ink); background: transparent; }
+  .btn--ghost:hover { background: var(--ink); color: var(--bg); }
+  .btn .arr { font-family: var(--ff-display); font-weight: 400; font-size: 18px; letter-spacing: 0; }
+
+  /* ─── Hero billboard (showroom pane) ─── */
+  .billboard {
+    margin-top: 56px;
+    aspect-ratio: 21/9;
+    background:
+      linear-gradient(180deg, #0F0F0F 0%, #000000 100%);
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .billboard::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(100%/24 - 1px), rgba(255,255,255,.05) calc(100%/24 - 1px) calc(100%/24)),
+      radial-gradient(ellipse 70% 50% at 50% 55%, rgba(37,99,235,.18), transparent 70%);
+  }
+  .billboard__chev {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: clamp(2px, 0.5vw, 8px);
+  }
+  .billboard__chev svg {
+    height: clamp(160px, 36vh, 380px);
+    width: auto; display: block;
+  }
+  .billboard__chev path {
+    stroke-dasharray: 600; stroke-dashoffset: 600;
+    animation: draw 1.8s cubic-bezier(.22,.9,.28,1) forwards;
+  }
+  .billboard__chev svg:nth-child(2) path { animation-delay: .35s; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .billboard__hud {
+    position: absolute; inset: 0;
+    padding: 20px 24px;
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr auto;
+    color: #fff;
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase;
+    pointer-events: none;
+  }
+  .billboard__hud .tl { grid-column: 1; grid-row: 1; opacity: .6; }
+  .billboard__hud .tr { grid-column: 2; grid-row: 1; text-align: right; opacity: .6; }
+  .billboard__hud .bl { grid-column: 1; grid-row: 3; opacity: .8; display: flex; align-items: center; gap: 10px; }
+  .billboard__hud .bl::before { content: ""; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  .billboard__hud .br { grid-column: 2; grid-row: 3; text-align: right; opacity: .8; }
+  .billboard__hud b { color: #fff; font-weight: 500; }
+
+  /* ─── Marquee ─── */
+  .marquee {
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden; padding: 20px 0;
+    background: var(--bg-2);
+  }
+  .marquee__track {
+    display: flex; gap: 48px; white-space: nowrap;
+    animation: slide 40s linear infinite;
+    font-family: var(--ff-display); font-weight: 600;
+    font-size: 22px; letter-spacing: -.01em;
+  }
+  .marquee__track span { display: inline-flex; align-items: center; gap: 48px; }
+  .marquee__track i { font-style: normal; color: var(--accent); }
+  .marquee__dot { width: 6px; height: 6px; background: var(--muted); border-radius: 50%; display: inline-block; }
+  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ─── Section ─── */
+  .section { padding: clamp(80px, 10vw, 140px) 0; border-bottom: 1px solid var(--rule); }
+  .section--dark { background: var(--bg-3); color: #fff; border-color: #1f1f1f; }
+  .section--dark .mono, .section--dark .muted { color: rgba(255,255,255,.5); }
+
+  .section__head {
+    display: grid; grid-template-columns: 1fr;
+    gap: 24px; margin-bottom: 64px;
+  }
+  @media (min-width: 820px) {
+    .section__head { grid-template-columns: 1fr 2fr; gap: 56px; align-items: end; }
+  }
+  .section__label {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section__label::before { content: ""; width: 28px; height: 1px; background: var(--accent); }
+  .section__title {
+    font-family: var(--ff-display); font-weight: 700;
+    font-size: clamp(34px, 5vw, 64px);
+    line-height: 1; letter-spacing: -0.035em;
+    margin: 0; text-transform: uppercase;
+  }
+  .section--dark .section__title { color: #fff; }
+  .section__title em { font-style: normal; color: var(--accent); }
+
+  /* ─── Services (catalog rows) ─── */
+  .services { border-top: 1px solid var(--rule); }
+  .section--dark .services { border-top-color: #1f1f1f; }
+  .service {
+    display: grid;
+    grid-template-columns: 80px 120px 1fr auto;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: start;
+    position: relative;
+    overflow: hidden;
+    transition: padding-left .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .section--dark .service { border-bottom-color: #1f1f1f; }
+  .service::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 0; background: var(--accent);
+    transition: width .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .service:hover { padding-left: 20px; }
+  .service:hover::before { width: 3px; }
+  .service__idx {
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .12em; color: var(--muted);
+    padding-top: 6px;
+  }
+  .service__tag {
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 5px 10px; border: 1px solid currentColor;
+    color: var(--muted);
+    align-self: start; margin-top: 2px;
+  }
+  .service__body h3 {
+    font-family: var(--ff-display); font-weight: 700;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.02; letter-spacing: -0.028em;
+    margin: 0 0 12px; text-transform: uppercase;
+  }
+  .service__body p {
+    max-width: 60ch; margin: 0;
+    color: var(--ink-2); line-height: 1.55; font-size: 15px;
+  }
+  .section--dark .service__body p { color: rgba(255,255,255,.7); }
+  .service__meta {
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted);
+    text-align: right; min-width: 140px; padding-top: 8px;
+    line-height: 1.8;
+  }
+  @media (max-width: 720px) {
+    .service { grid-template-columns: 1fr; gap: 10px; }
+    .service__meta, .service__tag { text-align: left; justify-self: start; }
+  }
+
+  /* ─── Specs grid (tech stack as spec sheet) ─── */
+  .specs {
+    border-top: 1px solid #1f1f1f;
+    border-left: 1px solid #1f1f1f;
+  }
+  .specs__row {
+    display: grid; grid-template-columns: 240px 1fr auto;
+    border-bottom: 1px solid #1f1f1f;
+    gap: 0;
+  }
+  .specs__row > div {
+    padding: 22px 24px;
+    border-right: 1px solid #1f1f1f;
+  }
+  .specs__key {
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+  }
+  .specs__val {
+    font-family: var(--ff-display); font-weight: 500;
+    font-size: 20px; letter-spacing: -.01em;
+    color: #fff;
+    display: flex; flex-wrap: wrap; gap: 10px 24px;
+  }
+  .specs__note {
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent);
+    min-width: 120px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .specs__note::before { content: ""; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; }
+  @media (max-width: 720px) {
+    .specs__row { grid-template-columns: 1fr; }
+  }
+
+  /* ─── About ─── */
+  .about { display: grid; grid-template-columns: 1fr; gap: 32px; }
+  @media (min-width: 960px) { .about { grid-template-columns: 1fr; gap: 40px; max-width: 980px; } }
+
+  .about__copy { }
+
+  .about__copy h4 {
+    font-family: var(--ff-display); font-weight: 700;
+    font-size: clamp(24px, 2.8vw, 36px); letter-spacing: -.03em;
+    line-height: 1.05; margin: 0 0 28px;
+    text-transform: uppercase; max-width: 20ch;
+  }
+  .about__copy p {
+    font-size: 16px; line-height: 1.65; color: var(--ink-2);
+    margin: 0 0 18px; max-width: 60ch;
+  }
+  .about__stats {
+    margin-top: 36px; padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  }
+  .about__stat { padding-right: 16px; border-right: 1px solid var(--rule); }
+  .about__stat:last-child { border-right: 0; }
+  .about__stat dt { font-family: var(--ff-mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .about__stat dd { font-family: var(--ff-display); font-weight: 700; font-size: clamp(28px, 3vw, 42px); letter-spacing: -.02em; margin: 0; line-height: 1; }
+  .about__stat dd sub { font-size: 12px; color: var(--muted); vertical-align: baseline; margin-left: 4px; font-weight: 400; }
+
+  /* ─── Contact ─── */
+  .contact { display: grid; grid-template-columns: 1fr; gap: 48px; }
+  @media (min-width: 960px) { .contact { grid-template-columns: 5fr 7fr; gap: 72px; } }
+  .contact__h {
+    font-family: var(--ff-display); font-weight: 700;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1; letter-spacing: -.035em;
+    margin: 0 0 28px; text-transform: uppercase;
+  }
+  .contact__h em { font-style: normal; color: var(--accent); }
+  .contact__mail {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: var(--ff-mono); font-size: 13px;
+    letter-spacing: .08em;
+    padding: 14px 18px; background: var(--ink); color: var(--bg);
+    transition: background .2s;
+  }
+  .contact__mail:hover { background: var(--accent); }
+  .contact__info { margin-top: 28px; border-top: 1px solid var(--rule); padding-top: 20px; }
+  .contact__info dl { margin: 0; display: grid; grid-template-columns: 100px 1fr; gap: 8px 16px; font-family: var(--ff-mono); font-size: 11px; letter-spacing: .08em; }
+  .contact__info dt { color: var(--muted); text-transform: uppercase; }
+  .contact__info dd { margin: 0; color: var(--ink); }
+
+  form.contact__form { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--rule-strong); }
+  .field {
+    display: flex; flex-direction: column;
+    padding: 18px 0; border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .field--full { grid-column: 1/-1; }
+  .field:nth-child(odd):not(.field--full) { padding-right: 24px; border-right: 1px solid var(--rule); }
+  .field:nth-child(even):not(.field--full) { padding-left: 24px; }
+  .field label {
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .field label::before { content: ""; width: 6px; height: 1px; background: var(--accent); }
+  .field input, .field textarea, .field select {
+    border: 0; background: transparent; outline: none;
+    font-family: var(--ff-body); font-size: 16px; color: var(--ink);
+    padding: 0; resize: none;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: color-mix(in oklab, var(--ink) 35%, transparent); }
+  .field textarea { min-height: 100px; padding-top: 2px; }
+  .form__actions { grid-column: 1/-1; display: flex; justify-content: space-between; align-items: center; padding-top: 20px; gap: 16px; flex-wrap: wrap; }
+  .form__note { font-family: var(--ff-mono); font-size: 10px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+
+  /* ─── Footer ─── */
+  .footer { background: var(--bg-3); color: #fff; padding: 80px 0 28px; }
+  .footer__top { display: grid; grid-template-columns: 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid #1f1f1f; }
+  @media (min-width: 860px) { .footer__top { grid-template-columns: 2fr 1fr 1fr 1fr; } }
+  .footer__brand svg { width: 36px; height: 36px; display: block; margin-bottom: 16px; }
+  .footer__brand .name { font-family: var(--ff-display); font-weight: 800; letter-spacing: .2em; text-transform: uppercase; font-size: 14px; }
+  .footer__brand p { color: rgba(255,255,255,.55); font-size: 14px; line-height: 1.55; margin: 12px 0 0; max-width: 36ch; }
+
+  .footer__col h5 { font-family: var(--ff-mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.5); margin: 0 0 18px; font-weight: 400; }
+  .footer__col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; font-family: var(--ff-display); font-size: 15px; }
+  .footer__col a { opacity: .8; transition: opacity .2s, color .2s; }
+  .footer__col a:hover { opacity: 1; color: var(--accent); }
+
+  .footer__bottom {
+    margin-top: 28px; padding-top: 20px;
+    border-top: 1px solid #1f1f1f;
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px;
+    font-family: var(--ff-mono); font-size: 10px;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.5);
+  }
+
+  /* ─── Scroll reveal ─── */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* ─── Tweaks panel ─── */
+  .tweaks {
+    position: fixed; right: 16px; bottom: 16px;
+    z-index: 200;
+    background: var(--bg); border: 1px solid var(--ink);
+    width: 264px;
+    font-family: var(--ff-mono); font-size: 11px;
+    display: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,.15);
+  }
+  .tweaks.is-open { display: block; }
+  .tweaks__head { padding: 10px 14px; background: var(--ink); color: var(--bg); display: flex; justify-content: space-between; letter-spacing: .16em; text-transform: uppercase; font-size: 10px; }
+  .tweaks__body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+  .tweak { display: flex; flex-direction: column; gap: 6px; }
+  .tweak label { color: var(--muted); letter-spacing: .12em; text-transform: uppercase; font-size: 9px; }
+  .tweak input[type=color] { width: 100%; height: 30px; border: 1px solid var(--rule); background: none; padding: 0; cursor: pointer; }
+  .tweak input[type=text] { width: 100%; padding: 8px 10px; border: 1px solid var(--rule); font-family: inherit; font-size: 11px; background: var(--bg-2); color: var(--ink); }
+  .tweak .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .tweak .seg--3 { grid-template-columns: 1fr 1fr 1fr; }
+  .tweak .seg button { border: 1px solid var(--rule); background: var(--bg-2); padding: 7px 4px; font-family: inherit; font-size: 10px; letter-spacing: .06em; cursor: pointer; color: var(--muted); text-transform: uppercase; }
+  .tweak .seg button.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+  /* ─── Mobile burger ─── */
+  .nav__burger {
+    display: none;
+    width: 36px; height: 36px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    padding: 0;
+  }
+  .nav__burger span { position: absolute; left: 8px; right: 8px; height: 1.5px; background: var(--ink); transition: transform .25s, top .25s, opacity .2s; }
+  .nav__burger span:nth-child(1) { top: 12px; }
+  .nav__burger span:nth-child(2) { top: 17px; }
+  .nav__burger span:nth-child(3) { top: 22px; }
+  .nav.is-open .nav__burger span:nth-child(1) { top: 17px; transform: rotate(45deg); }
+  .nav.is-open .nav__burger span:nth-child(2) { opacity: 0; }
+  .nav.is-open .nav__burger span:nth-child(3) { top: 17px; transform: rotate(-45deg); }
+
+  .nav__drawer {
+    display: none;
+    position: fixed; inset: 64px 0 0 0;
+    background: var(--bg);
+    border-top: 1px solid var(--rule);
+    padding: 24px var(--gutter);
+    flex-direction: column; gap: 4px;
+    z-index: 49;
+  }
+  .nav__drawer a {
+    font-family: var(--ff-display); font-weight: 600;
+    font-size: 28px; letter-spacing: -.02em;
+    text-transform: uppercase;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav__drawer .nav__drawer-cta {
+    margin-top: 16px; padding: 14px 16px;
+    background: var(--ink); color: var(--bg);
+    font-family: var(--ff-mono); font-size: 11px;
+    letter-spacing: .16em; text-transform: uppercase;
+    text-align: center; border-bottom: 0;
+  }
+  .nav.is-open .nav__drawer { display: flex; }
+
+  /* ─── Responsive polish ─── */
+  @media (max-width: 860px) {
+    .nav__burger { display: block; }
+    .nav__right { display: none; }
+    body.is-locked { overflow: hidden; }
+  }
+
+  @media (max-width: 720px) {
+    :root { --gutter: 20px; }
+    .hero { padding-top: 88px; }
+    .hero__meta { grid-template-columns: 1fr 1fr; }
+    .hero__meta > div:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); }
+    .hero__meta > div:nth-child(4) { border-top: 1px solid var(--rule); }
+    .hero__stage { padding: 48px 0 32px; }
+    .hero__headline { font-size: clamp(44px, 13vw, 72px); line-height: 0.92; letter-spacing: -0.035em; }
+    .hero__sub { margin-top: 28px; padding-top: 24px; gap: 24px; }
+    .hero__specs { grid-template-columns: 1fr 1fr; gap: 14px 20px; }
+    .hero__cta-row .btn { min-width: 0; width: 100%; }
+    .hero__eyebrow { font-size: 10px; gap: 10px; margin-bottom: 20px; }
+    .hero__eyebrow::before { width: 24px; }
+
+    .billboard { margin-top: 36px; aspect-ratio: 4/3; }
+    .billboard__chev svg { height: clamp(140px, 42vw, 220px); }
+    .billboard__hud { padding: 14px 16px; font-size: 9px; }
+
+    .marquee__track { font-size: 16px; gap: 32px; }
+    .marquee__track span { gap: 32px; }
+
+    .section { padding: 64px 0; }
+    .section__head { margin-bottom: 40px; gap: 16px; }
+    .section__title { font-size: clamp(30px, 8vw, 40px); letter-spacing: -.03em; }
+
+    .service { grid-template-columns: 1fr; gap: 10px; padding: 28px 0; }
+    .service:hover { padding-left: 0; }
+    .service__idx { padding-top: 0; font-size: 10px; }
+    .service__body h3 { font-size: 24px; }
+    .service__body p { font-size: 14px; }
+    .service__tag { margin-top: 0; }
+    .service__meta { text-align: left; padding-top: 4px; min-width: 0; }
+
+    .specs__row { grid-template-columns: 1fr; }
+    .specs__row > div { padding: 16px 18px; border-right: 0; }
+    .specs__key { border-bottom: 1px solid #1f1f1f; }
+    .specs__val { font-size: 17px; gap: 6px 14px; }
+    .specs__note { padding-top: 0 !important; }
+
+    .about { gap: 24px; }
+    .about__copy h4 { font-size: 24px; margin-bottom: 20px; }
+    .about__copy p { font-size: 15px; }
+    .about__stats { grid-template-columns: 1fr 1fr; gap: 20px 0; }
+    .about__stat:nth-child(2) { border-right: 0; }
+    .about__stat { padding-right: 12px; }
+    .about__stat dd { font-size: 28px; }
+
+    .contact__h { font-size: clamp(30px, 8vw, 40px); }
+    .contact__mail { font-size: 12px; padding: 12px 14px; }
+    .contact__info dl { grid-template-columns: 80px 1fr; font-size: 10px; gap: 6px 12px; }
+
+    form.contact__form { grid-template-columns: 1fr; }
+    .field:nth-child(odd):not(.field--full) { padding-right: 0; border-right: 0; }
+    .field:nth-child(even):not(.field--full) { padding-left: 0; }
+    .form__actions { flex-direction: column; align-items: stretch; }
+    .form__actions .btn { width: 100%; justify-content: center; }
+
+    .footer { padding: 56px 0 24px; }
+    .footer__top { gap: 32px; padding-bottom: 32px; }
+    .footer__bottom { font-size: 9px; gap: 10px; flex-direction: column; }
+
+    .tweaks { right: 8px; bottom: 8px; left: 8px; width: auto; }
+  }
+
+</style>
+</head>
+<body data-type="archivo" data-hero="showroom">
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="wrap nav__row">
+    <a class="nav__brand" href="#top" aria-label="Encoder">
+      <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 24 L44 48 L20 72" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+        <path d="M52 24 L76 48 L52 72" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+      </svg>
+      <span class="nav__brand-name">Encoder</span>
+    </a>
+    <div class="nav__links">
+      <a href="#services">Services</a>
+      <a href="#stack">Stack</a>
+      <a href="#about">Studio</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav__right">
+      <a class="nav__cta" href="#contact">Start a project</a>
+    </div>
+    <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="nav__drawer" id="nav-drawer">
+    <a href="#services">Services</a>
+    <a href="#stack">Stack</a>
+    <a href="#about">Studio</a>
+    <a href="#contact">Contact</a>
+    <a class="nav__drawer-cta" href="#contact">Start a project</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <div class="wrap">
+
+    <div class="hero__meta">
+      <div>Model<b>Encoder / 2026</b></div>
+      <div>Discipline<b>Software Studio</b></div>
+      <div>Origin<b>Remote · Worldwide</b></div>
+      <div><span class="dot"></span>Status<b>Accepting new work</b></div>
+    </div>
+
+    <div class="hero__stage">
+      <div class="hero__eyebrow"><b>The Engineering Studio</b> · Series 01</div>
+
+      <h1 class="hero__headline" id="headline"></h1>
+
+      <div class="hero__sub">
+        <p class="hero__lead">
+          Encoder is a <b>precision software studio</b>. We take raw ideas
+          and ship them as web apps, mobile apps, and
+          production-grade infrastructure — engineered, deployed, maintained.
+        </p>
+
+        <dl class="hero__specs">
+          <div><dt>Cycle length</dt><dd>4–8 weeks</dd></div>
+          <div><dt>First response</dt><dd>≤ 24 hours</dd></div>
+          <div><dt>Code ownership</dt><dd>100% yours</dd></div>
+          <div><dt>Method</dt><dd>Direct, senior</dd></div>
+        </dl>
+
+        <div class="hero__cta-row">
+          <a class="btn btn--primary" href="#contact">Start a project <span class="arr">→</span></a>
+          <a class="btn btn--ghost" href="#services">View services <span class="arr">↓</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Billboard -->
+  <div class="billboard" aria-hidden="true">
+    <div class="billboard__chev">
+      <svg viewBox="0 0 64 96" preserveAspectRatio="xMidYMid meet"><path d="M14 14 L50 48 L14 82" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+      <svg viewBox="0 0 64 96" preserveAspectRatio="xMidYMid meet"><path d="M14 14 L50 48 L14 82" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+    </div>
+    <div class="billboard__hud">
+      <div class="tl">Encoder / Mark 02</div>
+      <div class="tr">Signal · In → Out</div>
+      <div class="bl">Live · <b>Q2 / 2026</b></div>
+      <div class="br">Frame <b>00:04 / 12</b></div>
+    </div>
+  </div>
+</header>
+
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Web <i>·</i> Mobile <i>·</i> Infrastructure <i>·</i> Deployment <i>·</i> Precision engineered software <i>·</i> Ideas, encoded <i>·</i></span>
+    <span>Web <i>·</i> Mobile <i>·</i> Infrastructure <i>·</i> Deployment <i>·</i> Precision engineered software <i>·</i> Ideas, encoded <i>·</i></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__label">01 — Services</div>
+      <h2 class="section__title">The range. <em>Four disciplines,</em> one studio.</h2>
+    </div>
+
+    <div class="services reveal">
+      <article class="service">
+        <div class="service__idx">01 / 04</div>
+        <div class="service__tag">Web</div>
+        <div class="service__body">
+          <h3>Web Applications</h3>
+          <p>Full-stack products — from first wireframe to a live URL. Authentication, payments, dashboards, admin tools. We write the code, pick the stack, own the outcome.</p>
+        </div>
+        <div class="service__meta">React · Next<br/>Node · Postgres<br/>Stripe</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">02 / 04</div>
+        <div class="service__tag">Mobile</div>
+        <div class="service__body">
+          <h3>Mobile Applications</h3>
+          <p>Native-quality apps for iOS and Android from a single codebase. Push, offline, deep-linking, store submissions handled end-to-end.</p>
+        </div>
+        <div class="service__meta">React Native<br/>Expo · Swift<br/>App Store · Play</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">03 / 04</div>
+        <div class="service__tag">Infra</div>
+        <div class="service__body">
+          <h3>Server Configuration</h3>
+          <p>Boringly reliable infrastructure. VPS hardening, reverse proxies, databases, backups, monitoring, CI/CD pipelines — set up to keep running when you're asleep.</p>
+        </div>
+        <div class="service__meta">Linux · Docker<br/>Nginx · Caddy<br/>Redis</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">04 / 04</div>
+        <div class="service__tag">Deploy</div>
+        <div class="service__body">
+          <h3>Full Deployment</h3>
+          <p>From DNS to domain to production release. SSL, CDN, staging flows, observability — the unglamorous last mile handled end to end.</p>
+        </div>
+        <div class="service__meta">AWS · Cloudflare<br/>Fly · Railway<br/>GitHub Actions</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- STACK (dark spec sheet) -->
+<section class="section section--dark" id="stack">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__label">02 — Stack</div>
+      <h2 class="section__title">Technical <em>specifications.</em></h2>
+    </div>
+
+    <div class="specs reveal">
+      <div class="specs__row">
+        <div class="specs__key">Languages</div>
+        <div class="specs__val">TypeScript · JavaScript · Python · Swift · Go</div>
+        <div class="specs__note">Typed by default</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Frontend</div>
+        <div class="specs__val">React · Next.js · Vite · Tailwind</div>
+        <div class="specs__note">Stack 2026</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Mobile</div>
+        <div class="specs__val">React Native · Expo · Swift interop</div>
+        <div class="specs__note">iOS · Android</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Backend</div>
+        <div class="specs__val">Node · Fastify · Postgres · Redis</div>
+        <div class="specs__note">Production grade</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Infrastructure</div>
+        <div class="specs__val">Docker · Nginx · Caddy · Linux (Debian / Alpine)</div>
+        <div class="specs__note">Hardened</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Cloud</div>
+        <div class="specs__val">AWS · Cloudflare · Fly.io · Railway · Hetzner</div>
+        <div class="specs__note">Region-flexible</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Payments</div>
+        <div class="specs__val">Stripe · Paddle</div>
+        <div class="specs__note">PCI-safe</div>
+      </div>
+      <div class="specs__row">
+        <div class="specs__key">Observability</div>
+        <div class="specs__val">Sentry · Grafana · Uptime Kuma</div>
+        <div class="specs__note">Always-on</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__label">03 — Studio</div>
+      <h2 class="section__title">Small studio. <em>Direct line.</em></h2>
+    </div>
+
+    <div class="about reveal">
+      <div class="about__copy">
+        <h4>Built by engineers, for people with ideas.</h4>
+        <p>Encoder is an independent software studio. No account managers, no slide-deck middlemen — you talk to the person writing the code.</p>
+        <p>We work with founders shipping a first product and with established teams who need a sharp pair of hands for a specific, well-scoped problem. Short cycles. Tight feedback loops. Everything checked into a repo you own on day one.</p>
+        <p>If the idea is clear enough to describe in a paragraph, it's usually clear enough to prototype in a week.</p>
+
+        <dl class="about__stats">
+          <div class="about__stat"><dt>Founded</dt><dd>2024</dd></div>
+          <div class="about__stat"><dt>Shipped</dt><dd>12<sub>+</sub></dd></div>
+          <div class="about__stat"><dt>Avg. cycle</dt><dd>6<sub>wks</sub></dd></div>
+          <div class="about__stat"><dt>Response</dt><dd>24<sub>hr</sub></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__label">04 — Contact</div>
+      <h2 class="section__title">Let's <em>build it.</em></h2>
+    </div>
+
+    <div class="contact reveal">
+      <div class="contact__left">
+        <h3 class="contact__h">Have an idea? <em>We'd like to hear it.</em></h3>
+        <a class="contact__mail" href="mailto:info@encoder.click">
+          info@encoder.click <span>↗</span>
+        </a>
+
+        <div class="contact__info">
+          <dl>
+            <dt>Hours</dt><dd>Mon–Fri · 09:00–18:00</dd>
+            <dt>Reply</dt><dd>Within one business day</dd>
+            <dt>NDA</dt><dd>Signed before first call</dd>
+            <dt>Billing</dt><dd>Fixed-price or weekly</dd>
+          </dl>
+        </div>
+      </div>
+
+      <form class="contact__form" onsubmit="event.preventDefault(); this.querySelector('.form__note').textContent='Message queued. We\\'ll reply within 24h.';">
+        <div class="field"><label>Name</label><input type="text" placeholder="Jane Doe" required></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="jane@company.com" required></div>
+        <div class="field"><label>Company / role</label><input type="text" placeholder="CTO, Acme Inc."></div>
+        <div class="field"><label>Budget band</label>
+          <select>
+            <option>Not sure yet</option>
+            <option>&lt; $10k</option>
+            <option>$10k – $30k</option>
+            <option>$30k – $80k</option>
+            <option>$80k+</option>
+          </select>
+        </div>
+        <div class="field field--full"><label>Tell us about the idea</label><textarea placeholder="The shorter version is fine. We'll ask the follow-ups."></textarea></div>
+        <div class="form__actions">
+          <span class="form__note">Encrypted · never shared</span>
+          <button type="submit" class="btn btn--primary">Send <span class="arr">→</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 24 L44 48 L20 72" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+          <path d="M52 24 L76 48 L52 72" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+        </svg>
+        <div class="name">Encoder</div>
+        <p>An independent software studio. Ideas, encoded into working software — web, mobile, and the production layer underneath.</p>
+      </div>
+      <div class="footer__col">
+        <h5>Studio</h5>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#stack">Stack</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Direct</h5>
+        <ul>
+          <li><a href="mailto:info@encoder.click">info@encoder.click</a></li>
+          <li><a href="#">Book a call</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">LinkedIn</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h5>Legal</h5>
+        <ul>
+          <li><a href="#">Imprint</a></li>
+          <li><a href="#">Privacy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 Encoder — All rights reserved</span>
+      <span>info@encoder.click</span>
+      <span>Built with precision · No frameworks harmed</span>
+    </div>
+  </div>
+</footer>
+
+<!-- TWEAKS -->
+<aside class="tweaks" id="tweaks" aria-hidden="true">
+  <div class="tweaks__head"><span>Tweaks</span><span>§</span></div>
+  <div class="tweaks__body">
+    <div class="tweak"><label>Accent color</label><input type="color" id="tw-accent" value="#2563EB"/></div>
+    <div class="tweak"><label>Headline</label><input type="text" id="tw-headline" value="We make your ideas come true."/></div>
+    <div class="tweak">
+      <label>Typography</label>
+      <div class="seg seg--3" id="tw-type">
+        <button data-val="archivo">Archivo</button>
+        <button data-val="grotesk">Grotesk</button>
+        <button data-val="inter">Inter</button>
+      </div>
+    </div>
+    <div class="tweak">
+      <label>Hero layout</label>
+      <div class="seg" id="tw-hero">
+        <button data-val="showroom">Showroom</button>
+        <button data-val="compact">Compact</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  const HEADLINE_DEFAULT = "We make your ideas come true.";
+  const ACCENT_WORDS = ["ideas", "true.", "true"];
+
+  function renderHeadline(text) {
+    const el = document.getElementById("headline");
+    const words = text.trim().split(/\s+/);
+    el.innerHTML = words.map((w, i) => {
+      const raw = w.replace(/[.,!?]/g, "").toLowerCase();
+      const accent = ACCENT_WORDS.includes(raw);
+      const delay = (0.06 * i + 0.2).toFixed(2);
+      const inner = `<span style="animation-delay:${delay}s" onanimationend="this.parentElement.classList.add('is-done')">${w}</span>`;
+      const wrapped = `<span class="word">${inner}</span>`;
+      return accent ? `<em>${wrapped}</em>` : wrapped;
+    }).join(" ");
+  }
+
+  function applyHeroVariant(v) {
+    const hero = document.querySelector(".hero__sub");
+    if (v === "compact") {
+      document.querySelector(".billboard").style.display = "none";
+      document.querySelector(".marquee").style.display = "none";
+    } else {
+      document.querySelector(".billboard").style.display = "";
+      document.querySelector(".marquee").style.display = "";
+    }
+    document.body.setAttribute("data-hero", v);
+  }
+
+  function applyType(v) { document.body.setAttribute("data-type", v); }
+  function applyAccent(hex) { document.documentElement.style.setProperty("--accent", hex); }
+
+  const D = window.__TWEAK_DEFAULTS || {};
+  renderHeadline(D.headline || HEADLINE_DEFAULT);
+  applyHeroVariant(D.heroVariant || "showroom");
+  applyType(D.typePair || "archivo");
+  applyAccent(D.accent || "#2563EB");
+
+  const nav = document.getElementById("nav");
+  window.addEventListener("scroll", () => nav.classList.toggle("is-scrolled", window.scrollY > 8));
+
+  const io = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  /* Tweaks wiring */
+  const tweaks = document.getElementById("tweaks");
+  function openTweaks(open) { tweaks.classList.toggle("is-open", open); tweaks.setAttribute("aria-hidden", open ? "false" : "true"); }
+
+  const twAccent = document.getElementById("tw-accent");
+  const twHeadline = document.getElementById("tw-headline");
+  twAccent.value = D.accent || "#2563EB";
+  twHeadline.value = D.headline || HEADLINE_DEFAULT;
+
+  const setSeg = (sel, v) => document.querySelectorAll(sel + " button").forEach(b => b.classList.toggle("is-on", b.dataset.val === v));
+  setSeg("#tw-type", D.typePair || "archivo");
+  setSeg("#tw-hero", D.heroVariant || "showroom");
+
+  const persist = (edits) => { try { window.parent.postMessage({ type: "__edit_mode_set_keys", edits }, "*"); } catch(_) {} };
+
+  twAccent.addEventListener("input", (e) => { applyAccent(e.target.value); persist({ accent: e.target.value }); });
+  twHeadline.addEventListener("input", (e) => { renderHeadline(e.target.value || HEADLINE_DEFAULT); persist({ headline: e.target.value }); });
+  document.querySelectorAll("#tw-type button").forEach(b => b.addEventListener("click", () => { const v = b.dataset.val; applyType(v); setSeg("#tw-type", v); persist({ typePair: v }); }));
+  document.querySelectorAll("#tw-hero button").forEach(b => b.addEventListener("click", () => { const v = b.dataset.val; applyHeroVariant(v); setSeg("#tw-hero", v); persist({ heroVariant: v }); }));
+
+  window.addEventListener("message", (e) => {
+    const t = e.data && e.data.type;
+    if (t === "__activate_edit_mode") openTweaks(true);
+    else if (t === "__deactivate_edit_mode") openTweaks(false);
+  });
+  try { window.parent.postMessage({ type: "__edit_mode_available" }, "*"); } catch(_) {}
+
+  /* Mobile nav */
+  const burger = document.getElementById("nav-burger");
+  const drawer = document.getElementById("nav-drawer");
+  if (burger) {
+    burger.addEventListener("click", () => {
+      const open = !nav.classList.contains("is-open");
+      nav.classList.toggle("is-open", open);
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      document.body.classList.toggle("is-locked", open);
+    });
+    drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+      nav.classList.remove("is-open");
+      burger.setAttribute("aria-expanded", "false");
+      document.body.classList.remove("is-locked");
+    }));
+  }
+</script>
+</body>
+</html>

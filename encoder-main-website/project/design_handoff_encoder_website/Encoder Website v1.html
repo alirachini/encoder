@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Encoder — we make your ideas come true</title>
+<link rel="icon" href="assets/encoder-logo.svg" type="image/svg+xml" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Space+Grotesk:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<script>
+/* Tweaks: persisted defaults */
+window.__TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "#2563EB",
+  "headline": "We make your ideas come true.",
+  "typePair": "grotesk",
+  "heroVariant": "stacked"
+}/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root {
+    --bg: #FAFAF9;
+    --bg-2: #F3F3F1;
+    --ink: #0B1220;
+    --ink-2: #1A2238;
+    --muted: #6B7280;
+    --rule: #E5E7EB;
+    --accent: #2563EB;
+    --accent-ink: #fff;
+    --max: 1440px;
+    --gutter: clamp(20px, 4vw, 56px);
+
+    --ff-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    --ff-body: "Inter Tight", ui-sans-serif, system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+
+  [data-type="serif-mono"] {
+    --ff-display: "Instrument Serif", Georgia, serif;
+    --ff-body: "Inter Tight", system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  [data-type="grotesk"] {
+    --ff-display: "Space Grotesk", system-ui, sans-serif;
+    --ff-body: "Inter Tight", system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  [data-type="fraunces"] {
+    --ff-display: "Fraunces", Georgia, serif;
+    --ff-body: "Inter Tight", system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+  [data-type="newsreader"] {
+    --ff-display: "Newsreader", Georgia, serif;
+    --ff-body: "Inter Tight", system-ui, sans-serif;
+    --ff-mono: "JetBrains Mono", ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    font-size: 17px;
+    line-height: 1.5;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding-left: var(--gutter);
+    padding-right: var(--gutter);
+  }
+
+  /* ─── Paper grain removed: cleaner, modern app-studio feel ─── */
+
+  /* ─── Nav ─── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 18px 0;
+    backdrop-filter: blur(6px);
+    background: color-mix(in oklab, var(--bg) 82%, transparent);
+    border-bottom: 1px solid transparent;
+    transition: border-color .25s;
+  }
+  .nav.is-scrolled { border-bottom-color: color-mix(in oklab, var(--ink) 12%, transparent); }
+  .nav__row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 24px;
+  }
+  .nav__brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--ff-mono);
+    font-size: 13px;
+    letter-spacing: .02em;
+  }
+  .nav__brand svg { width: 22px; height: 22px; display: block; }
+  .nav__brand-name { font-weight: 500; }
+  .nav__brand-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: .3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+  .nav__links {
+    display: flex; gap: 28px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .nav__links a {
+    opacity: .6; transition: opacity .2s;
+    position: relative;
+  }
+  .nav__links a:hover { opacity: 1; }
+  .nav__links a::before {
+    content: ""; display: inline-block;
+    width: 5px; height: 5px; background: var(--accent);
+    margin-right: 8px; opacity: 0;
+    transform: translateY(-2px);
+    transition: opacity .2s;
+  }
+  .nav__links a:hover::before { opacity: 1; }
+  .nav__cta {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    transition: background .2s, color .2s;
+  }
+  .nav__cta:hover { background: var(--ink); color: var(--bg); }
+  @media (max-width: 720px) { .nav__links { display: none; } }
+
+  /* ─── Hero ─── */
+  .hero {
+    padding-top: 120px;
+    padding-bottom: 80px;
+    position: relative;
+  }
+  .hero__meta {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 32px;
+    border-bottom: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+    margin-bottom: 56px;
+  }
+  .hero__meta .center {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--ink);
+  }
+  .hero__meta .right { text-align: right; }
+  .hero__meta .ticker {
+    display: inline-block;
+    min-width: 6ch;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 80px; }
+  }
+
+  .hero__headline {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: clamp(48px, 8.5vw, 132px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .hero__headline em {
+    font-style: normal;
+    color: var(--accent);
+    position: relative;
+    white-space: nowrap;
+  }
+  .hero__headline .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: baseline;
+    padding: 0.18em 0.04em;
+    margin: -0.18em -0.04em;
+  }
+  .hero__headline .word.is-done { overflow: visible; }
+  .hero__headline .word > span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: wordRise .9s cubic-bezier(.22,.9,.28,1) forwards;
+  }
+  @keyframes wordRise { to { transform: translateY(0); } }
+
+  .hero__aside {
+    padding-top: 12px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .hero__aside-kicker {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero__aside-body {
+    font-size: 17px;
+    max-width: 38ch;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .hero__aside-body strong { font-weight: 500; }
+
+  .hero__cta-row {
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    margin-top: 4px;
+  }
+  .btn {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform .2s, background .2s, color .2s, border-color .2s;
+    cursor: pointer; border: 1px solid transparent;
+  }
+  .btn--primary {
+    background: var(--ink); color: var(--bg);
+  }
+  .btn--primary:hover { background: var(--accent); transform: translateY(-1px); }
+  .btn--ghost {
+    border-color: color-mix(in oklab, var(--ink) 30%, transparent);
+    color: var(--ink);
+  }
+  .btn--ghost:hover { border-color: var(--ink); }
+  .btn .arr { transition: transform .25s; }
+  .btn:hover .arr { transform: translateX(4px); }
+
+  /* Hero visual — oversized chevrons echoing logo */
+  .hero__mark {
+    margin-top: 72px;
+    position: relative;
+    padding-top: 40px;
+    border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .hero__chev {
+    display: flex; gap: clamp(8px, 2vw, 24px);
+    height: clamp(120px, 22vw, 260px);
+  }
+  .hero__chev svg { height: 100%; width: auto; display: block; }
+  .hero__chev path {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: drawStroke 1.4s ease-out forwards;
+  }
+  .hero__chev svg:nth-child(2) path { animation-delay: .25s; }
+  @keyframes drawStroke { to { stroke-dashoffset: 0; } }
+
+  .hero__caption {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    max-width: 28ch;
+    text-align: right;
+    line-height: 1.7;
+  }
+  .hero__caption b { color: var(--ink); font-weight: 500; }
+
+  /* ─── Generic section ─── */
+  .section {
+    padding: clamp(80px, 12vw, 140px) 0;
+    border-top: 1px solid color-mix(in oklab, var(--ink) 12%, transparent);
+    position: relative;
+  }
+  .section__head {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: baseline;
+    margin-bottom: 56px;
+  }
+  .section__num {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 10px;
+    white-space: nowrap;
+  }
+  .section__num::before {
+    content: ""; display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+  .section__title {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: clamp(36px, 5.5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0;
+  }
+  .section__title em { font-style: normal; color: var(--accent); }
+
+  /* ─── Services ─── */
+  .services {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .service {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 32px;
+    align-items: start;
+    padding: 36px 0;
+    border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+    position: relative;
+    cursor: default;
+    transition: padding-left .3s cubic-bezier(.2,.7,.2,1);
+  }
+  .service:last-child { border-bottom: 1px solid color-mix(in oklab, var(--ink) 14%, transparent); }
+  .service:hover { padding-left: 20px; }
+  .service::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--accent);
+    transform: scaleY(0); transform-origin: top;
+    transition: transform .35s cubic-bezier(.2,.7,.2,1);
+  }
+  .service:hover::before { transform: scaleY(1); }
+
+  .service__idx {
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: .1em;
+    color: var(--muted);
+    padding-top: 12px;
+  }
+  .service__title {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: clamp(26px, 3.2vw, 40px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px 0;
+  }
+  .service__desc {
+    max-width: 56ch;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+  .service__meta {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 18px;
+    text-align: right;
+    min-width: 120px;
+  }
+  @media (max-width: 720px) {
+    .service { grid-template-columns: 1fr; gap: 12px; }
+    .service__meta { text-align: left; }
+  }
+
+  /* ─── Tech stack ─── */
+  .stack {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1px;
+    background: color-mix(in oklab, var(--ink) 14%, transparent);
+    border: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+  }
+  .stack__cell {
+    background: var(--bg);
+    padding: 28px 22px;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 120px;
+    justify-content: space-between;
+    transition: background .25s;
+  }
+  .stack__cell:hover { background: var(--bg-2); }
+  .stack__name {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1;
+    letter-spacing: -.02em;
+  }
+  .stack__label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .stack__foot {
+    margin-top: 28px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    color: var(--muted);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+
+  /* ─── About ─── */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  @media (min-width: 960px) {
+    .about { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; }
+  }
+  .about__card {
+    border: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
+    background: var(--bg-2);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 20px;
+    position: relative;
+  }
+  .about__card::after {
+    content: ""; position: absolute; top: -1px; left: -1px;
+    width: 16px; height: 16px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+  .about__avatar {
+    aspect-ratio: 4/5;
+    background:
+      repeating-linear-gradient( 45deg,
+        color-mix(in oklab, var(--ink) 8%, transparent) 0 6px,
+        transparent 6px 12px),
+      var(--bg);
+    border: 1px solid color-mix(in oklab, var(--ink) 16%, transparent);
+    display: grid; place-items: center;
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about__role {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .about__name {
+    font-family: var(--ff-display);
+    font-size: 34px;
+    line-height: 1;
+    margin: 0;
+  }
+  .about__links {
+    display: flex; gap: 14px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+  }
+  .about__links a { border-bottom: 1px solid currentColor; padding-bottom: 2px; opacity: .7; }
+  .about__links a:hover { opacity: 1; color: var(--accent); }
+
+  .about__copy p {
+    font-family: var(--ff-display);
+    font-size: clamp(22px, 2.5vw, 32px);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+    margin: 0 0 22px 0;
+    font-weight: 400;
+    color: var(--ink);
+  }
+  .about__copy p:not(:first-child) {
+    font-family: var(--ff-body);
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink-2);
+  }
+  .about__stats {
+    margin-top: 24px;
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+    padding-top: 22px;
+  }
+  .about__stat dt {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .about__stat dd {
+    font-family: var(--ff-display);
+    font-size: 36px;
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* ─── Contact ─── */
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  @media (min-width: 960px) {
+    .contact { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 72px; }
+  }
+  .contact__left h3 {
+    font-family: var(--ff-display);
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: .95;
+    letter-spacing: -.02em;
+    margin: 0 0 24px 0;
+    font-weight: 400;
+  }
+  .contact__left h3 em { font-style: italic; color: var(--accent); }
+  .contact__mail {
+    font-family: var(--ff-mono);
+    font-size: 15px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 14px;
+    border: 1px solid var(--ink);
+    transition: background .2s, color .2s;
+  }
+  .contact__mail:hover { background: var(--ink); color: var(--bg); }
+
+  .contact__info {
+    margin-top: 24px;
+    font-family: var(--ff-mono);
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+  .contact__info b { color: var(--ink); font-weight: 500; display: inline-block; min-width: 7ch; }
+
+  form.contact__form {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .field {
+    display: flex; flex-direction: column;
+    padding: 18px 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--ink) 18%, transparent);
+    position: relative;
+  }
+  .field--full { grid-column: 1/-1; }
+  .field:not(:last-of-type):nth-child(odd) { border-right: 1px solid color-mix(in oklab, var(--ink) 18%, transparent); padding-right: 24px; }
+  .field:nth-child(even) { padding-left: 24px; }
+  .field label {
+    font-family: var(--ff-mono);
+    font-size: 10px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .field label::before { content: "→ "; color: var(--accent); }
+  .field input, .field textarea, .field select {
+    border: none; background: transparent;
+    font-family: var(--ff-body);
+    font-size: 17px;
+    color: var(--ink);
+    padding: 0; outline: none;
+    resize: none;
+  }
+  .field input::placeholder, .field textarea::placeholder { color: color-mix(in oklab, var(--ink) 40%, transparent); }
+  .field textarea { min-height: 90px; padding-top: 4px; }
+  .form__actions {
+    grid-column: 1/-1;
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 20px; gap: 16px; flex-wrap: wrap;
+  }
+  .form__note {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .05em;
+  }
+
+  /* ─── Footer ─── */
+  .footer {
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--ink);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .footer__wordmark {
+    font-family: var(--ff-display);
+    font-size: clamp(100px, 22vw, 340px);
+    line-height: .8;
+    letter-spacing: -.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--ink);
+    text-stroke: 1px var(--ink);
+    user-select: none;
+    margin: 0;
+    white-space: nowrap;
+  }
+  .footer__row {
+    margin-top: 40px;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 20px;
+    border-top: 1px solid color-mix(in oklab, var(--ink) 14%, transparent);
+  }
+
+  /* ─── Scroll reveal ─── */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+  .reveal.is-in { opacity: 1; transform: none; }
+
+  /* ─── Tweaks panel ─── */
+  .tweaks {
+    position: fixed; right: 16px; bottom: 16px;
+    z-index: 200;
+    background: var(--bg);
+    border: 1px solid var(--ink);
+    width: 260px;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    padding: 0;
+    display: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,.12);
+  }
+  .tweaks.is-open { display: block; }
+  .tweaks__head {
+    padding: 10px 14px;
+    background: var(--ink); color: var(--bg);
+    display: flex; align-items: center; justify-content: space-between;
+    letter-spacing: .14em; text-transform: uppercase; font-size: 10px;
+  }
+  .tweaks__body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+  .tweak { display: flex; flex-direction: column; gap: 6px; }
+  .tweak label { color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-size: 9px; }
+  .tweak input[type=color] { width: 100%; height: 28px; border: 1px solid color-mix(in oklab, var(--ink) 20%, transparent); background: none; padding: 0; cursor: pointer; }
+  .tweak input[type=text] { width: 100%; padding: 6px 8px; border: 1px solid color-mix(in oklab, var(--ink) 20%, transparent); font-family: inherit; font-size: 11px; background: var(--bg-2); color: var(--ink); }
+  .tweak .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .tweak .seg button {
+    border: 1px solid color-mix(in oklab, var(--ink) 20%, transparent);
+    background: var(--bg-2); padding: 6px 4px; font-family: inherit; font-size: 10px;
+    letter-spacing: .04em; cursor: pointer; color: var(--muted); text-transform: uppercase;
+  }
+  .tweak .seg button.is-on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tweak .seg--4 { grid-template-columns: 1fr 1fr; }
+</style>
+</head>
+<body data-type="serif-mono" data-hero="split">
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" id="nav">
+  <div class="wrap nav__row">
+    <a class="nav__brand" href="#top">
+      <svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 24 L44 48 L20 72" fill="none" stroke="currentColor" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+        <path d="M52 24 L76 48 L52 72" fill="none" stroke="var(--accent)" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter"/>
+      </svg>
+      <span class="nav__brand-name">Encoder</span>
+      <span class="nav__brand-dot" aria-hidden="true"></span>
+    </a>
+    <div class="nav__links">
+      <a href="#services">Services</a>
+      <a href="#stack">Stack</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="nav__cta" href="#contact">Start a project →</a>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero__meta">
+      <div class="left">§ 00 &nbsp; Studio / Independent</div>
+      <div class="center">
+        <span style="width:8px;height:8px;background:var(--accent);display:inline-block"></span>
+        Available for new work — <span class="ticker" id="ticker">Q2 / 2026</span>
+      </div>
+      <div class="right">Remote · Worldwide</div>
+    </div>
+
+    <div class="hero__grid">
+      <h1 class="hero__headline" id="headline">
+        <!-- filled by JS to stagger -->
+      </h1>
+
+      <aside class="hero__aside">
+        <div class="hero__aside-kicker">What we do</div>
+        <p class="hero__aside-body">
+          Encoder is a small studio that takes raw ideas and ships them as
+          <strong>web apps, mobile apps, and production-grade infrastructure</strong>.
+          We're the ones you call when the blueprint exists only in your head — and something working needs to exist by next quarter.
+        </p>
+        <div class="hero__cta-row">
+          <a class="btn btn--primary" href="#contact">
+            Book a kickoff call <span class="arr">→</span>
+          </a>
+          <a class="btn btn--ghost" href="#services">
+            See what we build
+          </a>
+        </div>
+      </aside>
+    </div>
+
+    <div class="hero__mark">
+      <div class="hero__chev" aria-hidden="true">
+        <svg viewBox="0 0 96 96"><path d="M20 16 L68 48 L20 80" fill="none" stroke="var(--ink)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+        <svg viewBox="0 0 96 96"><path d="M20 16 L68 48 L20 80" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+      </div>
+      <div></div>
+      <div class="hero__caption">
+        Two chevrons, one signal —<br/>
+        <b>input</b> becomes <b>output</b>.<br/>
+        Ideas, encoded into software.
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ SERVICES ══════════ -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__num">§ 01 — Services</div>
+      <h2 class="section__title">Four things, <em>done well.</em></h2>
+    </div>
+
+    <div class="services reveal">
+      <article class="service">
+        <div class="service__idx">01/04</div>
+        <div>
+          <h3 class="service__title">Web applications</h3>
+          <p class="service__desc">Full-stack products — from first wireframe to a live URL. Authentication, payments, dashboards, admin tools. We write the code, pick the stack, own the outcome.</p>
+        </div>
+        <div class="service__meta">React · Next · Node<br/>Postgres · Stripe</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">02/04</div>
+        <div>
+          <h3 class="service__title">Mobile applications</h3>
+          <p class="service__desc">Native-quality apps for iOS and Android from a single codebase. Push, offline, deep-linking, store submissions handled end-to-end. Your users never notice the plumbing.</p>
+        </div>
+        <div class="service__meta">React Native<br/>Expo · Swift interop</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">03/04</div>
+        <div>
+          <h3 class="service__title">Server configuration</h3>
+          <p class="service__desc">Boringly reliable infrastructure. VPS hardening, reverse proxies, databases, backups, monitoring, CI/CD pipelines. We set it up so it keeps running when you're asleep.</p>
+        </div>
+        <div class="service__meta">Linux · Docker<br/>Nginx · Caddy · Redis</div>
+      </article>
+
+      <article class="service">
+        <div class="service__idx">04/04</div>
+        <div>
+          <h3 class="service__title">Full deployment</h3>
+          <p class="service__desc">From DNS to domain to production release. We handle the unglamorous last mile — SSL, CDN, staging flows, observability — so the "it works on my machine" era ends at our doorstep.</p>
+        </div>
+        <div class="service__meta">AWS · Cloudflare<br/>Fly · Railway</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ STACK ══════════ -->
+<section class="section" id="stack">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__num">§ 02 — Stack</div>
+      <h2 class="section__title">The toolkit we <em>actually</em> reach for.</h2>
+    </div>
+
+    <div class="stack reveal">
+      <div class="stack__cell"><div class="stack__name">TypeScript</div><div class="stack__label">Language</div></div>
+      <div class="stack__cell"><div class="stack__name">React</div><div class="stack__label">UI</div></div>
+      <div class="stack__cell"><div class="stack__name">Next.js</div><div class="stack__label">Framework</div></div>
+      <div class="stack__cell"><div class="stack__name">Node</div><div class="stack__label">Runtime</div></div>
+      <div class="stack__cell"><div class="stack__name">Postgres</div><div class="stack__label">Database</div></div>
+      <div class="stack__cell"><div class="stack__name">Redis</div><div class="stack__label">Cache / Queue</div></div>
+      <div class="stack__cell"><div class="stack__name">Docker</div><div class="stack__label">Containers</div></div>
+      <div class="stack__cell"><div class="stack__name">Nginx</div><div class="stack__label">Proxy</div></div>
+      <div class="stack__cell"><div class="stack__name">AWS</div><div class="stack__label">Cloud</div></div>
+      <div class="stack__cell"><div class="stack__name">Cloudflare</div><div class="stack__label">Edge / DNS</div></div>
+      <div class="stack__cell"><div class="stack__name">Expo</div><div class="stack__label">Mobile</div></div>
+      <div class="stack__cell"><div class="stack__name">Stripe</div><div class="stack__label">Payments</div></div>
+    </div>
+
+    <div class="stack__foot reveal">
+      <span>* We pick tools per-project. This is the default hand — not the rulebook.</span>
+      <span>last revised — Q2 / 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="section" id="about">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__num">§ 03 — About</div>
+      <h2 class="section__title">Small studio, <em>direct line.</em></h2>
+    </div>
+
+    <div class="about reveal">
+      <div class="about__card">
+        <div class="about__avatar">[ founder · photo ]</div>
+        <div>
+          <div class="about__role">Founder &amp; Lead Engineer</div>
+          <h3 class="about__name">[ Your name ]</h3>
+        </div>
+        <div class="about__links">
+          <a href="#">GitHub</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">X / Twitter</a>
+        </div>
+      </div>
+
+      <div class="about__copy">
+        <p>Encoder is an independent software studio. No account managers, no slide-deck middlemen — you talk to the person writing the code.</p>
+        <p>We work with founders shipping a first product and with established teams who need a sharp pair of hands for a specific, well-scoped problem. Short cycles. Tight feedback loops. Everything checked into a repo you own on day one.</p>
+        <p>If the idea is clear enough to describe in a paragraph, it's usually clear enough to prototype in a week.</p>
+
+        <dl class="about__stats">
+          <div class="about__stat"><dt>Founded</dt><dd>2024</dd></div>
+          <div class="about__stat"><dt>Engagements</dt><dd>12+</dd></div>
+          <div class="about__stat"><dt>Avg. cycle</dt><dd>6w</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section class="section" id="contact">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <div class="section__num">§ 04 — Contact</div>
+      <h2 class="section__title">Let's <em>encode</em> it.</h2>
+    </div>
+
+    <div class="contact reveal">
+      <div class="contact__left">
+        <h3>Have an idea?<br/>We'd love to <em>hear it.</em></h3>
+        <a class="contact__mail" href="mailto:info@encoder.click">
+          info@encoder.click
+          <span>↗</span>
+        </a>
+        <div class="contact__info">
+          <div><b>hours</b> Mon–Fri · 09:00–18:00 CET</div>
+          <div><b>reply</b> within one business day</div>
+          <div><b>nda</b> happy to sign before the first call</div>
+        </div>
+      </div>
+
+      <form class="contact__form" onsubmit="event.preventDefault(); this.querySelector('.form__note').textContent='Thanks — we\\'ll be in touch shortly.';">
+        <div class="field"><label>Your name</label><input type="text" placeholder="Jane Doe" required></div>
+        <div class="field"><label>Email</label><input type="email" placeholder="jane@company.com" required></div>
+        <div class="field"><label>Company / role (optional)</label><input type="text" placeholder="CTO, Acme Inc."></div>
+        <div class="field"><label>Budget band</label>
+          <select>
+            <option>Not sure yet</option>
+            <option>&lt; $10k</option>
+            <option>$10k – $30k</option>
+            <option>$30k – $80k</option>
+            <option>$80k+</option>
+          </select>
+        </div>
+        <div class="field field--full"><label>Tell us about the idea</label><textarea placeholder="The shorter version is fine. We'll ask the follow-ups."></textarea></div>
+        <div class="form__actions">
+          <span class="form__note">Encrypted in transit · not shared with third parties.</span>
+          <button type="submit" class="btn btn--primary">Send message <span class="arr">→</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__wordmark" aria-hidden="true">ENCODER</div>
+    <div class="footer__row">
+      <span>© 2026 Encoder — all rights reserved</span>
+      <span>info@encoder.click</span>
+      <span>Built by hand · No frameworks harmed</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════ TWEAKS PANEL ══════════ -->
+<aside class="tweaks" id="tweaks" aria-hidden="true">
+  <div class="tweaks__head">
+    <span>Tweaks</span>
+    <span>§</span>
+  </div>
+  <div class="tweaks__body">
+    <div class="tweak">
+      <label>Accent color</label>
+      <input type="color" id="tw-accent" value="#2563EB"/>
+    </div>
+    <div class="tweak">
+      <label>Headline</label>
+      <input type="text" id="tw-headline" value="We make your ideas come true."/>
+    </div>
+    <div class="tweak">
+      <label>Typography</label>
+      <div class="seg" id="tw-type">
+        <button data-val="serif-mono">Serif + Mono</button>
+        <button data-val="grotesk">Grotesk</button>
+        <button data-val="fraunces">Fraunces</button>
+        <button data-val="newsreader">Newsreader</button>
+      </div>
+    </div>
+    <div class="tweak">
+      <label>Hero layout</label>
+      <div class="seg" id="tw-hero">
+        <button data-val="split">Split</button>
+        <button data-val="stacked">Stacked</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<script>
+  /* ─── Headline: word-by-word rise ─── */
+  const HEADLINE_DEFAULT = "We make your ideas come true.";
+  const ACCENT_WORDS = ["ideas", "true."]; // italic-accented words
+  function renderHeadline(text) {
+    const el = document.getElementById("headline");
+    const words = text.trim().split(/\s+/);
+    el.innerHTML = words.map((w, i) => {
+      const raw = w.replace(/[.,!?]/g, "").toLowerCase();
+      const accent = ACCENT_WORDS.includes(raw) || ACCENT_WORDS.includes(w.toLowerCase());
+      const delay = (0.06 * i + 0.2).toFixed(2);
+      const inner = `<span style="animation-delay:${delay}s" onanimationend="this.parentElement.classList.add('is-done')">${w}</span>`;
+      const wrapped = `<span class="word">${inner}</span>`;
+      return accent ? `<em>${wrapped}</em>` : wrapped;
+    }).join(" ");
+  }
+
+  /* ─── Hero layout variants ─── */
+  function applyHeroVariant(v) {
+    const hero = document.querySelector(".hero__grid");
+    if (!hero) return;
+    if (v === "stacked") {
+      hero.style.gridTemplateColumns = "1fr";
+      hero.style.gap = "40px";
+    } else {
+      hero.style.gridTemplateColumns = "";
+      hero.style.gap = "";
+    }
+    document.body.setAttribute("data-hero", v);
+  }
+
+  /* ─── Typography switch ─── */
+  function applyType(v) { document.body.setAttribute("data-type", v); }
+
+  /* ─── Accent ─── */
+  function applyAccent(hex) {
+    document.documentElement.style.setProperty("--accent", hex);
+  }
+
+  /* ─── Init from defaults ─── */
+  const D = window.__TWEAK_DEFAULTS || {};
+  renderHeadline(D.headline || HEADLINE_DEFAULT);
+  applyHeroVariant(D.heroVariant || "split");
+  applyType(D.typePair || "serif-mono");
+  applyAccent(D.accent || "#2563EB");
+
+  /* ─── Nav shadow on scroll ─── */
+  const nav = document.getElementById("nav");
+  window.addEventListener("scroll", () => {
+    nav.classList.toggle("is-scrolled", window.scrollY > 8);
+  });
+
+  /* ─── Ticker (quarters) ─── */
+  (function () {
+    const el = document.getElementById("ticker");
+    if (!el) return;
+    const opts = ["Q2 / 2026", "Q3 / 2026", "Q4 / 2026"];
+    let i = 0;
+    setInterval(() => {
+      i = (i + 1) % opts.length;
+      el.style.opacity = 0;
+      setTimeout(() => { el.textContent = opts[i]; el.style.opacity = 1; }, 180);
+    }, 2600);
+    el.style.transition = "opacity .25s";
+  })();
+
+  /* ─── Scroll reveal ─── */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); } });
+  }, { rootMargin: "0px 0px -10% 0px", threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+  /* ─── Tweaks wiring ─── */
+  const tweaks = document.getElementById("tweaks");
+  function openTweaks(open) {
+    tweaks.classList.toggle("is-open", open);
+    tweaks.setAttribute("aria-hidden", open ? "false" : "true");
+  }
+
+  // Wire controls first (before announcing availability)
+  const twAccent = document.getElementById("tw-accent");
+  const twHeadline = document.getElementById("tw-headline");
+  twAccent.value = D.accent || "#2563EB";
+  twHeadline.value = D.headline || HEADLINE_DEFAULT;
+
+  function setTypeSeg(v) {
+    document.querySelectorAll("#tw-type button").forEach(b => b.classList.toggle("is-on", b.dataset.val === v));
+  }
+  function setHeroSeg(v) {
+    document.querySelectorAll("#tw-hero button").forEach(b => b.classList.toggle("is-on", b.dataset.val === v));
+  }
+  setTypeSeg(D.typePair || "serif-mono");
+  setHeroSeg(D.heroVariant || "split");
+
+  function persist(edits) {
+    try { window.parent.postMessage({ type: "__edit_mode_set_keys", edits }, "*"); } catch(_) {}
+  }
+
+  twAccent.addEventListener("input", (e) => { applyAccent(e.target.value); persist({ accent: e.target.value }); });
+  twHeadline.addEventListener("input", (e) => { renderHeadline(e.target.value || HEADLINE_DEFAULT); persist({ headline: e.target.value }); });
+  document.querySelectorAll("#tw-type button").forEach(b => {
+    b.addEventListener("click", () => { const v = b.dataset.val; applyType(v); setTypeSeg(v); persist({ typePair: v }); });
+  });
+  document.querySelectorAll("#tw-hero button").forEach(b => {
+    b.addEventListener("click", () => { const v = b.dataset.val; applyHeroVariant(v); setHeroSeg(v); persist({ heroVariant: v }); });
+  });
+
+  // Listener, then announce
+  window.addEventListener("message", (e) => {
+    const t = e.data && e.data.type;
+    if (t === "__activate_edit_mode") openTweaks(true);
+    else if (t === "__deactivate_edit_mode") openTweaks(false);
+  });
+  try { window.parent.postMessage({ type: "__edit_mode_available" }, "*"); } catch(_) {}
+</script>
+</body>
+</html>
