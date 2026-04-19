@@ -27,7 +27,6 @@ export default function SiteFooter() {
             <ul>
               <li><a href="mailto:info@encoder.click">info@encoder.click</a></li>
               <li><a href="#contact">Start a project</a></li>
-              <li><a href="https://github.com/Encoders-Co" target="_blank" rel="noopener noreferrer">GitHub</a></li>
               <li><a href="#">LinkedIn</a></li>
             </ul>
           </div>
